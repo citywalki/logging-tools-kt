@@ -5,6 +5,7 @@ import java.io.PrintWriter
 import java.time.ZonedDateTime
 
 internal class MessageBundleGenerator(
+    @Suppress("UnusedPrivateProperty")
     private val context: Context,
     private val bundle: MessageBundle,
     private val packageName: String,
@@ -87,7 +88,6 @@ internal class MessageBundleGenerator(
     }
 
     private fun messageMethod(method: MessageMethod) {
-
         w.println(
             "  override fun ${method.name}(${methodParameters(method.parameters)}) : ${method.returnType.name} {"
         )
@@ -129,16 +129,4 @@ internal class MessageBundleGenerator(
         w.println("  }")
         w.println()
     }
-
-    private fun translation(parameters: List<Parameter>, message: String) {
-        if (parameters.isNotEmpty()) {
-            val args = parameters.joinToString(",") { it.name }
-            w.println("    val message = \"$message\".format($args) ")
-        } else {
-            w.println("    val message = \"$message\" ")
-        }
-
-        w.println("    return message")
-    }
-
 }

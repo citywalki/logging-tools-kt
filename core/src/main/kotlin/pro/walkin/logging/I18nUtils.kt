@@ -27,9 +27,7 @@ object I18nUtils {
 
             else -> {
                 val parts = targetStr.split('_')
-                if (parts.size > 3) {
-                    throw IllegalArgumentException("Failed to parse %s to a Locale. $targetStr")
-                }
+                require(parts.size <= 3) { "Failed to parse %s to a Locale. $targetStr" }
                 Locale(parts[0], parts[1])
             }
         }

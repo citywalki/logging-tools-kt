@@ -6,17 +6,18 @@ import pro.walkin.logging.annotations.Message
 import pro.walkin.logging.annotations.MessageBundle
 import pro.walkin.logging.processor.Context
 import pro.walkin.logging.processor.findAnnotation
-import pro.walkin.logging.processor.findAnnotations
 import pro.walkin.logging.processor.findValue
 import pro.walkin.logging.processor.report
 
-internal class BundleInterfaceDefinitionSourceResolver(private val context: Context) {
-    fun resolve(symbol: KSAnnotated): BundleInterfaceDefinitionSource{
+internal class BundleInterfaceDefinitionSourceResolver(
+    @Suppress("UnusedPrivateProperty") private val context: Context
+) {
+    fun resolve(symbol: KSAnnotated): BundleInterfaceDefinitionSource {
         val defDeclaration = symbol as? KSClassDeclaration ?: report("is null", symbol)
 
         val annotation = defDeclaration.findAnnotation(MessageBundle::class)
         val projectCode = annotation?.findValue("projectCode") ?: report("projectCode is null", symbol)
-        val aliases = annotation?.findValue("aliases")
+        val aliases = annotation.findValue("aliases")
 
         if (aliases !is List<*>) {
             report("The aliases value of @${MessageBundle::class.simpleName} is invalid.", defDeclaration)
@@ -24,7 +25,7 @@ internal class BundleInterfaceDefinitionSourceResolver(private val context: Cont
 
         val messageFunctions = mutableSetOf<BundleInterfaceMessageFunctionSource>()
         defDeclaration.getAllFunctions().forEach { method ->
-          val messageAnnotation =  method.findAnnotation(Message::class)
+            val messageAnnotation = method.findAnnotation(Message::class)
             if (messageAnnotation != null) {
                 val functionSource = BundleInterfaceMessageFunctionSource(
                     method,

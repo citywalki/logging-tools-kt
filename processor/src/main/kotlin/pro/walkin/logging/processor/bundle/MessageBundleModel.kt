@@ -16,7 +16,6 @@ internal class MessageBundleModel(
         }
 
     fun createMessageBundleClassName(): Pair<String, String> {
-
         val messageBundleClassName = definitionSource.interfaceSimpleName + "Bundle"
         return definitionSource.packageName to messageBundleClassName
     }

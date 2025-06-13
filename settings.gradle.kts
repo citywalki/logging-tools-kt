@@ -15,4 +15,4 @@ include(":core")
 include(":processor")
 include(":sample")
 
-rootProject.name = "logging-tool"
+rootProject.name = "logging-tools"

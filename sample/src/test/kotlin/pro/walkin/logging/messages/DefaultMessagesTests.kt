@@ -9,9 +9,8 @@ class DefaultMessagesTests {
 
     @Test
     fun `test default message`() {
-        assertEquals("基础1", I18nMessages.defaultGeneratorMessages.basic())
+        assertEquals("基础11", I18nMessages.defaultGeneratorMessages.basic())
         assertEquals("hello you", I18nMessages.defaultGeneratorMessages.basicArgs("you"))
         assertNotEquals("hello you1", I18nMessages.defaultGeneratorMessages.basicArgs("you"))
-
     }
 }

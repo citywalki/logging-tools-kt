@@ -1,0 +1,25 @@
+comments:
+  UndocumentedPublicClass:
+    active: true
+    excludes: ['**/*.kt']
+    includes: ['**/detekt-api/src/main/**/api/*.kt']
+  UndocumentedPublicFunction:
+    active: true
+    excludes: ['**/*.kt']
+    includes: ['**/detekt-api/src/main/**/api/*.kt']
+style:
+  MagicNumber:
+    ignoreNumbers:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '0'
+      - '1024'
+    ignoreEnums: true
+    ignorePropertyDeclaration: true

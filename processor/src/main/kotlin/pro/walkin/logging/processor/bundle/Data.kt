@@ -2,7 +2,6 @@ package pro.walkin.logging.processor.bundle
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
 import pro.walkin.logging.processor.toCamelCase
 import kotlin.collections.ifEmpty
@@ -11,7 +10,7 @@ internal data class BundleInterfaceMessageFunctionSource(
     private val declaration: KSFunctionDeclaration,
     val name: String,
     val value: String
-){
+) {
     fun parameters() = declaration.parameters
 
     fun returnType() = declaration.returnType
@@ -34,7 +33,7 @@ internal val BundleInterfaceDefinitionSource.names: List<String>
 
 internal data class MessageBundle(
     val interfaceName: String,
-    val importStatements : Set<String>,
+    val importStatements: Set<String>,
     val messageMethods: List<MessageMethod>,
 )
 

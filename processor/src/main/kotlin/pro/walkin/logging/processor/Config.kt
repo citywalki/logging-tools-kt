@@ -5,15 +5,13 @@ internal data class Config(
     val translationFilesPath: String? = null
 ) {
 
-    companion object{
+    companion object {
         fun create(options: Map<String, String>): Config {
-
             val translationFilesPath = options["translationFilesPath"]
             return Config(
                 enable = true,
-                translationFilesPath=translationFilesPath
+                translationFilesPath = translationFilesPath
             )
         }
     }
 }
-

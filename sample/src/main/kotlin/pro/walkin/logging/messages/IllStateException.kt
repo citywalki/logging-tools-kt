@@ -1,4 +1,3 @@
 package pro.walkin.logging.messages
 
-class IllStateException: Throwable() {
-}
+class IllStateException : Throwable()

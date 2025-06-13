@@ -14,22 +14,16 @@ internal class MessageBundleAnalyzer(
         } catch (e: Exit) {
             return MessageBundleAnalysisResult.Error(e)
         }
-        return if (definitionSource == null) {
-            MessageBundleAnalysisResult.Skip
-        } else {
-            try {
-                val bundle = MessageBundleFactory(context,definitionSource).create()
-                val model = MessageBundleModel(definitionSource, bundle)
-                MessageBundleAnalysisResult.Success(model)
-            } catch (e: Exit) {
-                val model = MessageBundleModel(definitionSource)
-                MessageBundleAnalysisResult.Failure(model, e)
-            }
+        return try {
+            val bundle = MessageBundleFactory(context, definitionSource).create()
+            val model = MessageBundleModel(definitionSource, bundle)
+            MessageBundleAnalysisResult.Success(model)
+        } catch (e: Exit) {
+            val model = MessageBundleModel(definitionSource)
+            MessageBundleAnalysisResult.Failure(model, e)
         }
     }
-
 }
-
 
 internal sealed class MessageBundleAnalysisResult {
     data class Success(val model: MessageBundleModel) : MessageBundleAnalysisResult()

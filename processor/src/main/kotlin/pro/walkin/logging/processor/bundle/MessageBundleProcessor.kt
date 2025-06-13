@@ -23,7 +23,7 @@ internal class MessageBundleProcessor(
             BundleInterfaceDefinitionSourceResolver(context),
         )
 
-        for (symbol in (symbols - processedSymbols)) {
+        (symbols - processedSymbols).forEach { symbol ->
             val model = when (val result = analyzer.analyze(symbol)) {
                 is MessageBundleAnalysisResult.Success -> result.model
                 is MessageBundleAnalysisResult.Failure -> {
@@ -33,11 +33,11 @@ internal class MessageBundleProcessor(
 
                 is MessageBundleAnalysisResult.Error -> {
                     log(context, result.exit)
-                    continue
+                    return@forEach
                 }
 
                 is MessageBundleAnalysisResult.Skip -> {
-                    continue
+                    return@forEach
                 }
             }
             generateMessageImpl(context, model)
@@ -52,9 +52,9 @@ internal class MessageBundleProcessor(
     }
 
     private fun generateMessageImpl(context: Context, model: MessageBundleModel) {
-        val dependencies = Dependencies(false, *model.containingFiles.toTypedArray())
+        val dependencies = Dependencies(false, sources = model.containingFiles.toTypedArray())
         val (packageName, simpleName) = model.createMessageBundleClassName()
-        context.codeGenerator.createNewFile(dependencies,packageName,simpleName).use { out ->
+        context.codeGenerator.createNewFile(dependencies, packageName, simpleName).use { out ->
             PrintWriter(out).use { writer ->
 
                 MessageBundleGenerator(

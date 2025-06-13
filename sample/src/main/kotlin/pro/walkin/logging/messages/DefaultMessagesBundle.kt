@@ -20,9 +20,9 @@ class DefaultMessagesBundle : DefaultMessages {
         val locale = getLoggingLocale()
         var message = "default"
 
-        if (localeEquals(locale,Locale.SIMPLIFIED_CHINESE)) {
+        if (localeEquals(locale, Locale.SIMPLIFIED_CHINESE)) {
             message = "你好"
-        } else if (localeEquals(locale,Locale.ENGLISH)) {
+        } else if (localeEquals(locale, Locale.ENGLISH)) {
             message = ""
         }
 
@@ -58,7 +58,9 @@ class DefaultMessagesBundle : DefaultMessages {
         return message
     }
 
-    private fun localeEquals(left: Locale, right: Locale): Boolean = left.language == right.language && left.country == right.country
+    private fun localeEquals(left: Locale, right: Locale): Boolean {
+        return left.language == right.language && left.country == right.country
+    }
 }
 
 public val I18nMessages.defaultMessages: DefaultMessagesBundle

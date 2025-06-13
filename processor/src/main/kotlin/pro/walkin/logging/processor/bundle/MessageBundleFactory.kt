@@ -34,7 +34,6 @@ internal class MessageBundleFactory(
     }
 
     private fun messageMethods(): Pair<MutableSet<String>, List<MessageMethod>> {
-
         // find interface all translation files
         val interfaceTranslations = interfaceTranslations()
 
@@ -127,7 +126,6 @@ internal class MessageBundleFactory(
                     methodLocaleMessages =
                         methodLocaleMessages.plus(key to translations.plus(locale to value.toString()))
                 }
-
             }
         }
         return methodLocaleMessages.toMap()
@@ -138,9 +136,7 @@ internal class MessageBundleFactory(
         val matcher = pattern.matcher(translationFileName)
         val found = matcher.find()
 
-        if (!found) {
-            throw IllegalArgumentException("The given filename is not a valid property filename")
-        }
+        require(found) { "Translation file name not found: $translationFileName" }
 
         return matcher.group(1)!!
     }
@@ -150,11 +146,9 @@ internal class MessageBundleFactory(
         val interfaceName = definitionSource.interfaceSimpleName
         val translationFilesPath = context.config.translationFilesPath
 
-
         val classTranslationFilesPath = if (translationFilesPath != null) {
             translationFilesPath + packageName.replace('.', File.separatorChar)
         } else {
-
 //            throw RuntimeException("translationFilesPath is null")
             packageName.replace('.', File.separatorChar)
         }
@@ -175,7 +169,6 @@ internal class MessageBundleFactory(
 //            })
             return result
         }
-
     }
 }
 

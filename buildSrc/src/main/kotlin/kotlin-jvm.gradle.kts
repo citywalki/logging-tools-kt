@@ -5,6 +5,8 @@ package buildsrc.convention
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.UsesKotlinJavaToolchain
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin in JVM projects.
@@ -12,30 +14,34 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
+val versionCatalog = versionCatalogs.named("libs")
+
+val jvmTargetVersion = versionCatalog.findVersion("jvm-target").get().requiredVersion
+
 kotlin {
     // Use a specific Java version to make it easier to work in different environments.
-    jvmToolchain(21)
+    jvmToolchain(JavaLanguageVersion.of(versionCatalog.findVersion("java-compile-toolchain").get().requiredVersion).asInt())
 }
 
 dependencies {
-//    detekt(project(":detekt-cli"))
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
 }
 
 detekt {
     autoCorrect = true
     buildUponDefaultConfig = true
-    baseline = file("$rootDir/./config/detekt/baseline.xml")
+    config.setFrom(rootProject.file("config/detekt/detekt.yml"))
+    baseline = rootProject.file("config/detekt/baseline.xml")
 }
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "1.8"
+    jvmTarget = "21"
     reports {
         xml.required = true
         html.required = true
         sarif.required = true
         md.required = true
     }
-    basePath = rootDir.absolutePath
+    basePath = rootProject.rootDir.path
 }
 //detektReportMergeSarif {
 //    input.from(tasks.withType<Detekt>().map { it.reports.sarif.outputLocation })
