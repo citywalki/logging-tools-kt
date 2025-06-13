@@ -1,0 +1,25 @@
+[versions]
+kotlin = "2.1.21"
+kotlinxDatetime = "0.6.1"
+kotlinxSerializationJSON = "1.7.3"
+kotlinxCoroutines = "1.9.0"
+ksp = "2.1.21-2.0.2"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+
+ksp-symbol-processing = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "ksp" }
+ksp-symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+ksp-test = { module = "dev.zacsweers.kctfork:ksp", version = "0.7.1" }
+
+# Libraries can be bundled together for easier import
+[bundles]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+
+[plugins]
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = {id="com.google.devtools.ksp", version="2.1.21-2.0.1"}
