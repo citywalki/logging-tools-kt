@@ -1,5 +1,3 @@
-// The code in this file is a convention plugin - a Gradle mechanism for sharing reusable build logic.
-// `buildSrc` is a Gradle-recognized directory and every plugin there will be easily available in the rest of the build.
 package buildsrc.convention
 
 import io.gitlab.arturbosch.detekt.Detekt
@@ -15,12 +13,11 @@ plugins {
 }
 
 val versionCatalog = versionCatalogs.named("libs")
-
+val javaToolchainVersion = versionCatalog.findVersion("java-compile-toolchain").get().requiredVersion
 val jvmTargetVersion = versionCatalog.findVersion("jvm-target").get().requiredVersion
 
 kotlin {
-    // Use a specific Java version to make it easier to work in different environments.
-    jvmToolchain(JavaLanguageVersion.of(versionCatalog.findVersion("java-compile-toolchain").get().requiredVersion).asInt())
+    jvmToolchain(javaToolchainVersion.toInt())
 }
 
 dependencies {
@@ -34,7 +31,7 @@ detekt {
     baseline = rootProject.file("config/detekt/baseline.xml")
 }
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "21"
+    jvmTarget = jvmTargetVersion
     reports {
         xml.required = true
         html.required = true
@@ -46,9 +43,6 @@ tasks.withType<Detekt>().configureEach {
 //detektReportMergeSarif {
 //    input.from(tasks.withType<Detekt>().map { it.reports.sarif.outputLocation })
 //}
-tasks.withType<DetektCreateBaselineTask>().configureEach {
-    jvmTarget = "21"
-}
 
 tasks.withType<Test>().configureEach {
     // Configure all test Gradle tasks to use JUnitPlatform.
